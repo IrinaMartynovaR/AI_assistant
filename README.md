@@ -17,7 +17,7 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/yourusername/your-repo.git](https://github.com/IrinaMartynovaR/AI_assistant.git
+   git clone https://github.com/IrinaMartynovaR/AI_assistant.git
    ```
 
 2. Установите необходимые зависимости:
