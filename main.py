@@ -2,6 +2,7 @@ from adress import fetch_and_extract_urls
 from scraper import process_urls  
 from generated_blog import process_text_files  
 from generated_img import Text2ImageAPI, read_txt_files
+from txttodoc import convert_txt_to_docx
 import os
 from dotenv import load_dotenv 
 
@@ -19,6 +20,9 @@ def main():
     process_urls()    
     # Шаг 3: Обработка текстов статей и генерация блогов
     process_text_files()
+    txt_folder_path = 'blog'  
+    docx_folder_path = 'blog'
+    convert_txt_to_docx(txt_folder_path, docx_folder_path)
     #Шаг 4:Генерация изображений по промту 
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', kandinsky_api, kandinsky_key) # инициализация API    
     model_id = api.get_model()# Получаем ID модели
