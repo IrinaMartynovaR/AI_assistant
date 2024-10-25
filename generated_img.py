@@ -73,11 +73,32 @@ class Text2ImageAPI:
                 print(f"Ошибка при сохранениии {i + 1}: {e}")
 
 
-def extract_first_three_sentences(text):
+def extract_sentences(text):
     # Регулярное выражение для нахождения предложений
     sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text) #проверка на перечисления
     # Возвращаем первые три предложения
     return ' '.join(sentences[:4])
+
+    
+def promt_text(txt_folder_path):
+    # Обработка файлов в папке txt_folder_path
+    txt_files = [f for f in os.listdir(txt_folder_path) if f.endswith('.txt')]
+    for i, file_name in enumerate(txt_files):
+        file_path = os.path.join(txt_folder_path, file_name)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            text = f.read()
+        
+        # Извлечение предложений и запись обратно в файл
+        processed_text = extract_sentences(text)
+        
+        # Сохраняем обработанный текст в новый файл с именем promt{i+1}.txt
+        new_file_name = f'promt{i + 1}.txt'
+        new_file_path = os.path.join(txt_folder_path, new_file_name)
+        with open(new_file_path, 'w', encoding='utf-8') as f:
+            f.write(processed_text)
+        
+        # Удаляем исходный файл
+        os.remove(file_path)
 
 def read_txt_files(folder):
     txt_files = [f for f in os.listdir(folder) if f.endswith('.txt')]
@@ -86,7 +107,7 @@ def read_txt_files(folder):
     for txt_file in txt_files:
         with open(os.path.join(folder, txt_file), 'r', encoding='utf-8') as file:
             text = file.read()
-            prompt = extract_first_three_sentences(text)
+            prompt = extract_sentences(text)
             prompts.append(prompt)
 
     return prompts

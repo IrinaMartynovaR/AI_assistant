@@ -1,7 +1,7 @@
 from adress import fetch_and_extract_urls
 from scraper import process_urls  
 from generated_blog import process_text_files  
-from generated_img import Text2ImageAPI, read_txt_files
+from generated_img import Text2ImageAPI, read_txt_files, promt_text
 from txttodoc import convert_txt_to_docx
 import os
 from dotenv import load_dotenv 
@@ -23,11 +23,12 @@ def main():
     txt_folder_path = 'blog'  
     docx_folder_path = 'blog'
     convert_txt_to_docx(txt_folder_path, docx_folder_path)
+    promt_text(txt_folder_path)
     #Шаг 4:Генерация изображений по промту 
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', kandinsky_api, kandinsky_key) # инициализация API    
     model_id = api.get_model()# Получаем ID модели
     folder_path = 'blog'    
-    prompts = read_txt_files(folder_path)# Чтение текстов из файлов и извлечение первых трёх предложений
+    prompts = read_txt_files(folder_path)# Чтение текстов из файлов и извлечение промта
     # Генерация изображений для каждого текстового файла
     for i, prompt in enumerate(prompts):
         print(f"Генерируется изображение {i + 1} по промту: {prompt}")        
